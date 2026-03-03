@@ -204,22 +204,6 @@ export function useChat() {
   const sendMessage = useCallback((text: string) => {
     if (!text.trim()) return;
 
-    // Secret nuke trigger
-    if (text.trim().toLowerCase() === 'dingus' && channelRef.current) {
-      channelRef.current.send({ type: 'broadcast', event: 'nuke', payload: {} });
-      setState(prev => ({
-        ...prev,
-        messages: [{
-          id: generateId(),
-          username: 'system',
-          text: 'Session purged.',
-          timestamp: Date.now(),
-          type: 'system',
-        }],
-      }));
-      return;
-    }
-
     const msg: ChatMessage = {
       id: generateId(),
       username: usernameRef.current,
