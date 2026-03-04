@@ -35,11 +35,20 @@ export function GifPicker({ onSelect, disabled }: GifPickerProps) {
         body: { q: q.trim(), limit: 20 },
       });
 
-      if (!error && data?.results) {
+      console.log('GIF search response:', { data, error });
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        setResults([]);
+      } else if (data && Array.isArray(data.results)) {
         setResults(data.results);
+      } else {
+        console.warn('Unexpected response format:', data);
+        setResults([]);
       }
-    } catch {
-      // silent
+    } catch (err) {
+      console.error('GIF search exception:', err);
+      setResults([]);
     } finally {
       setLoading(false);
     }
