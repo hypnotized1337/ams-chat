@@ -49,7 +49,7 @@ const messageVariants = {
 export const MessageBubble = memo(function MessageBubble({
   msg,
   isOwn,
-  currentUser,
+  _currentUser,
   index,
   onImageClick,
   onInspectFile,
