@@ -32,6 +32,7 @@ export interface MessageGroupInfo {
 interface MessageBubbleProps {
   msg: ChatMessage;
   isOwn: boolean;
+  currentUser: string;
   index: number;
   groupInfo: MessageGroupInfo;
   onImageClick: (url: string) => void;
