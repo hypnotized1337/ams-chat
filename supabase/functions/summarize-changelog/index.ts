@@ -38,11 +38,11 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'Summarize these git commits into a concise, grouped changelog. Use categories like Added, Fixed, Changed, Improved. Be brief. Use markdown formatting with ## for categories and - for items. Do not include commit hashes.',
+            content: `You are summarizing git commits for "v0id", an anonymous ephemeral chat app. Group changes into these exact categories using ## headings: Features, UI/UX, Bug Fixes, Security, Refactors. Under each heading use bullet points (- ). Be specific about what changed (e.g. "added GIF picker with Klipy API" not "added feature"). Skip merge commits and version bumps. Keep each bullet to one line. If a category has no commits, omit it entirely. Do not include commit hashes or dates.`,
           },
           {
             role: 'user',
-            content: commitList,
+            content: `Here are all the commits:\n\n${commitList}`,
           },
         ],
         stream: false,
