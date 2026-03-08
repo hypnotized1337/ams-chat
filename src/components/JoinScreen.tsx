@@ -207,7 +207,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
             <input
               type="text"
               value={roomName}
-              onChange={(e) => { setRoomName(e.target.value); setNeedsPassword(false); setJoinPassword(''); }}
+              onChange={(e) => { setRoomName(e.target.value); setNeedsPassword(false); setJoinPassword(''); setRoomTaken(false); }}
               placeholder="any code creates a room"
               className="w-full bg-input rounded-md py-2.5 px-3 text-sm text-transparent placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-ring transition-colors font-mono caret-foreground selection:bg-foreground/20 selection:text-transparent"
               maxLength={30}
