@@ -7,12 +7,6 @@ import {
   ContextMenuContent,
   ContextMenuItem,
 } from '@/components/ui/context-menu';
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from '@/components/ui/tooltip';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { StatusIcon } from './StatusIcon';
