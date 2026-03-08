@@ -146,22 +146,30 @@ export function useChat() {
 
   const checkUsernameAvailable = useCallback(async (username: string, roomCode: string): Promise<boolean> => {
     return new Promise((resolve) => {
-      const peekChannel = supabase.channel(`room:${roomCode}:peek-${generateId()}`, {
-        config: { presence: { key: `_peek_${generateId()}` } },
+      const peekId = `_peek_${generateId()}`;
+      const peekChannel = supabase.channel(`room:${roomCode}`, {
+        config: { presence: { key: peekId } },
       });
 
-      const timeout = setTimeout(() => {
-        supabase.removeChannel(peekChannel);
-        resolve(true);
-      }, 4000);
-
-      peekChannel.on('presence', { event: 'sync' }, () => {
-        const presenceState = peekChannel.presenceState();
-        const activeUsernames = Object.keys(presenceState);
-        const taken = activeUsernames.includes(username);
+      let resolved = false;
+      const finish = (available: boolean) => {
+        if (resolved) return;
+        resolved = true;
         clearTimeout(timeout);
         supabase.removeChannel(peekChannel);
-        resolve(!taken);
+        resolve(available);
+      };
+
+      const timeout = setTimeout(() => finish(true), 4000);
+
+      peekChannel.on('presence', { event: 'sync' }, () => {
+        // Wait a tick for presence state to populate
+        setTimeout(() => {
+          const presenceState = peekChannel.presenceState();
+          const activeKeys = Object.keys(presenceState).filter(k => !k.startsWith('_peek_'));
+          const taken = activeKeys.includes(username);
+          finish(!taken);
+        }, 500);
       });
 
       peekChannel.subscribe();
