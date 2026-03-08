@@ -271,17 +271,14 @@ export function useChat() {
         }
       });
 
-      channel.on('broadcast', { event: 'system' }, (payload) => {
+      const handleSystemOrAnnouncement = (payload: any) => {
         const msg = safeParse(ChatMessageSchema, payload.payload);
         if (!msg) return;
         setState(prev => ({ ...prev, messages: [...prev.messages, msg as ChatMessage] }));
-      });
+      };
 
-      channel.on('broadcast', { event: 'announcement' }, (payload) => {
-        const msg = safeParse(ChatMessageSchema, payload.payload);
-        if (!msg) return;
-        setState(prev => ({ ...prev, messages: [...prev.messages, msg as ChatMessage] }));
-      });
+      channel.on('broadcast', { event: 'system' }, handleSystemOrAnnouncement);
+      channel.on('broadcast', { event: 'announcement' }, handleSystemOrAnnouncement);
 
       channel.on('broadcast', { event: 'typing' }, (payload) => {
         const parsed = safeParse(TypingSchema, payload.payload);
