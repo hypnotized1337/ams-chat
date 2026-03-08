@@ -20,6 +20,8 @@ interface ChatAreaProps {
   frozen: boolean;
   frozenBy: string | null;
   nuking: boolean;
+  uiScale: number;
+  onScaleChange: (val: number[]) => void;
   onSend: (text: string, replyTo?: ReplyTo) => void;
   onTyping: () => void;
   onToggleNotifications: () => void;
