@@ -115,6 +115,7 @@ export const MessageBubble = memo(function MessageBubble({
   groupInfo,
   onImageClick,
   onInspectFile,
+  onInspectVideo,
   onEdit,
   onUnsend,
   onReply,
