@@ -102,6 +102,7 @@ export function ChatArea({
   const scrollToBottom = useCallback((smooth = true) => {
     endRef.current?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
     setUnreadCount(0);
+    setUnreadMarkerId(null);
     setIsScrolledUp(false);
     userScrolledRef.current = false;
   }, []);
