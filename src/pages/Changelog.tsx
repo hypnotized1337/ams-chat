@@ -62,7 +62,7 @@ export default function Changelog() {
     setSummaryError(null);
 
     try {
-      const commitMessages = allCommits.map(c => c.message.split('\n')[0]);
+      const commitMessages = allCommits.map(c => (c.message || '').split('\n')[0]);
       const latestSha = allCommits[0]?.sha;
       const { data, error } = await supabase.functions.invoke('summarize-changelog', {
         body: { commits: commitMessages, latest_sha: latestSha },
