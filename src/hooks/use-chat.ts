@@ -505,18 +505,16 @@ export function useChat() {
           }),
     };
 
-    console.log('[v0] Sending file message:', { 
-      isImage, 
-      fileType: file.type, 
-      fileName: file.name,
-      msgFileUrl: msg.fileUrl,
-      msgFileName: msg.fileName,
-      msgFileMimeType: msg.fileMimeType
+    console.log('[v0] Sending file message - full msg object:', JSON.stringify(msg, null, 2));
+
+    setState(prev => {
+      const newMessages = [...prev.messages, msg];
+      console.log('[v0] State update - new message added:', JSON.stringify(newMessages[newMessages.length - 1], null, 2));
+      return { ...prev, messages: newMessages };
     });
 
-    setState(prev => ({ ...prev, messages: [...prev.messages, msg] }));
-
     if (channelRef.current) {
+      console.log('[v0] Broadcasting message payload:', JSON.stringify(msg, null, 2));
       channelRef.current.send({ type: 'broadcast', event: 'message', payload: msg });
     }
 
