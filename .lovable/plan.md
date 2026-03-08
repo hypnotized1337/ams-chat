@@ -1,25 +1,19 @@
+## Plan: Admin Authentication, GIF Integration & Cleanup — COMPLETED
 
+### 1. Secure Admin Authentication ✅
+- `ADMIN_MASTER_KEY` stored as backend secret
+- `verify-admin` edge function with constant-time comparison
+- `AdminAuthOverlay` terminal-style component (black bg, green monospace)
+- `sessionStorage` persistence for admin status
+- `isRoomCreator` removed from ChatState and all references
 
-## Plan: Add `isGif` flag for accurate GIF notification detection
+### 2. GIF Integration (Klipy API) ✅
+- `KLIPY_API_KEY` stored as backend secret
+- `gif-search` edge function proxying to Klipy GIF Search API
+- `GifPicker` component with monochromatic grid, grayscale filter, color on hover
+- GIFs sent as ephemeral messages with 12-hour imageExpiry
 
-### Problem
-GIF messages use `imageUrl` but the URL-based heuristic (`tenor.com`, `giphy.com`) fails because the URLs are likely proxied or transformed. So the notification falls through to "sent a photo".
-
-### Solution
-Add an `isGif: boolean` property to `ChatMessage` and set it `true` in `sendGif`. Use this flag in the notification logic instead of URL sniffing.
-
-### Changes
-
-| File | Change |
-|---|---|
-| `src/types/chat.ts` | Add `isGif?: boolean` to `ChatMessage` interface |
-| `src/hooks/use-chat.ts` | Set `isGif: true` in `sendGif()` message object. Simplify notification logic: check `msg.isGif` instead of URL heuristic |
-
-### Notification logic becomes:
-```
-if (msg.isGif) → "sent a GIF"
-else if (msg.imageUrl) → "sent a photo"
-else if (msg.fileUrl) → "sent a file"
-...
-```
-
+### 3. Cleanup ✅
+- `exportHistory` removed (dead code)
+- Unused `ChatMessage` import removed from JoinScreen
+- `importedMessages` param removed from JoinScreen onJoin signature

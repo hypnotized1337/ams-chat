@@ -51,6 +51,7 @@ const ChatMessageSchema = z.object({
   deleted: z.boolean().optional(),
   imageUrl: z.string().url().max(2000).optional(),
   imageExpiry: z.number().optional(),
+  isGif: z.boolean().optional(),
   fileUrl: z.string().url().max(2000).optional(),
   fileName: z.string().max(255).optional(),
   fileSize: z.number().optional(),
@@ -231,15 +232,13 @@ export function useChat() {
 
         if (notificationsRef.current && document.hidden) {
           let body: string;
-          const isGifUrl = (url?: string) => url && (url.includes('tenor.com') || url.includes('giphy.com') || url.includes('/gif'));
-          if (msg.imageUrl && isGifUrl(msg.imageUrl)) {
+          if (msg.isGif) {
             body = `${msg.username} sent a GIF`;
           } else if (msg.imageUrl) {
             body = `${msg.username} sent a photo 📷`;
           } else if (msg.fileUrl) {
             body = `${msg.username} sent a file: ${msg.fileName || 'attachment'}`;
-          } else if (isGifUrl(msg.text)) {
-            body = `${msg.username} sent a GIF`;
+          } else if (msg.replyTo) {
           } else if (msg.replyTo) {
             const replyText = msg.text ? `"${msg.text.slice(0, 80)}"` : '';
             body = `${msg.username} replied to ${msg.replyTo.username}: ${replyText}`;
@@ -558,6 +557,7 @@ export function useChat() {
       status: 'sent',
       imageUrl: gifUrl,
       imageExpiry: Date.now() + TEN_MINUTES,
+      isGif: true,
     };
 
     setState(prev => ({ ...prev, messages: [...prev.messages, msg] }));
