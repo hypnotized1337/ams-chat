@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ChangelogDialog } from '@/components/ChangelogDialog';
 
 interface JoinScreenProps {
   onJoin: (username: string, roomCode: string) => Promise<{ error: string | null }>;
@@ -28,6 +29,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <ChangelogDialog />
       <motion.form
         onSubmit={handleJoin}
         className="w-full max-w-sm space-y-5"
