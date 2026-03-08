@@ -306,14 +306,7 @@ export function ChatArea({
         )}
 
         <AnimatePresence initial={false}>
-          {!nuking && messages.map((msg, i) => {
-            const prev = messages[i - 1];
-            const next = messages[i + 1];
-            const isGroupable = msg.type === 'message' && !msg.deleted;
-            const isFirstInGroup = !isGroupable || !prev || prev.type !== 'message' || prev.deleted || prev.username !== msg.username;
-            const isLastInGroup = !isGroupable || !next || next.type !== 'message' || next.deleted || next.username !== msg.username;
-
-            return (
+          {!nuking && groupedMessages.map(({ msg, groupInfo }, i) => (
               <div key={msg.id}>
                 {unreadMarkerId === msg.id && (
                   <div className="flex items-center gap-3 my-2 px-2">
@@ -326,7 +319,7 @@ export function ChatArea({
                   msg={msg}
                   isOwn={msg.username === currentUser}
                   index={i}
-                  groupInfo={{ isFirstInGroup, isLastInGroup }}
+                  groupInfo={groupInfo}
                   onImageClick={setFullscreenImage}
                   onInspectFile={setInspectedFile}
                   onEdit={handleStartEdit}
@@ -339,10 +332,13 @@ export function ChatArea({
                   onEditTextChange={setEditText}
                   onEditSubmit={handleEditSubmit}
                   onEditCancel={handleEditCancel}
+                  quickReactions={quickReactions}
+                  frequentlyUsed={frequentlyUsed}
+                  recordReaction={recordReaction}
                 />
               </div>
-            );
-          })}
+            ))}
+
         </AnimatePresence>
 
         {/* Nuke dissolve overlay */}
