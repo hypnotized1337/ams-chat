@@ -2,8 +2,7 @@ import { memo, useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Search } from 'lucide-react';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-
-const QUICK_REACTIONS = ['✓', '✗', '⚡', '👁', '🔥'];
+import { useFrequentReactions } from '@/hooks/use-frequent-reactions';
 
 const EMOJI_MAP: Record<string, string[]> = {
   '👍': ['thumbs up', 'like', 'yes', 'ok', 'good', 'approve'],
@@ -84,12 +83,15 @@ const CATEGORIES = [
 
 interface ReactionPickerProps {
   onSelect: (emoji: string) => void;
+  recordReaction?: (emoji: string) => void;
 }
 
-export const ReactionPicker = memo(function ReactionPicker({ onSelect }: ReactionPickerProps) {
+export const ReactionPicker = memo(function ReactionPicker({ onSelect, recordReaction: externalRecord }: ReactionPickerProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const { quickReactions, frequentlyUsed, recordReaction } = useFrequentReactions();
+  const record = externalRecord || recordReaction;
 
   useEffect(() => {
     if (open) {
@@ -107,8 +109,14 @@ export const ReactionPicker = memo(function ReactionPicker({ onSelect }: Reactio
   }, [search]);
 
   const handlePick = (emoji: string) => {
+    record(emoji);
     onSelect(emoji);
     setOpen(false);
+  };
+
+  const handleQuickPick = (emoji: string) => {
+    record(emoji);
+    onSelect(emoji);
   };
 
   return (
@@ -119,10 +127,10 @@ export const ReactionPicker = memo(function ReactionPicker({ onSelect }: Reactio
       transition={{ duration: 0.12 }}
       className="flex gap-0.5 bg-card border border-border rounded-full px-1.5 py-0.5 shadow-md items-center"
     >
-      {QUICK_REACTIONS.map(emoji => (
+      {quickReactions.map(emoji => (
         <button
           key={emoji}
-          onClick={() => onSelect(emoji)}
+          onClick={() => handleQuickPick(emoji)}
           className="w-7 h-7 flex items-center justify-center rounded-full text-sm hover:bg-muted transition-colors active:scale-[0.9]"
         >
           {emoji}
@@ -166,10 +174,11 @@ export const ReactionPicker = memo(function ReactionPicker({ onSelect }: Reactio
               )
             ) : (
               <>
+                {frequentlyUsed.length > 0 && (
                 <div>
-                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-wider px-1">Frequently Used</span>
+                  <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-wider px-1">Your Frequent</span>
                   <div className="flex flex-wrap gap-0.5 mt-0.5">
-                    {FREQUENTLY_USED.map(emoji => (
+                    {frequentlyUsed.map(emoji => (
                       <button
                         key={emoji}
                         onClick={() => handlePick(emoji)}
@@ -180,6 +189,7 @@ export const ReactionPicker = memo(function ReactionPicker({ onSelect }: Reactio
                     ))}
                   </div>
                 </div>
+                )}
                 {CATEGORIES.map(cat => (
                   <div key={cat.label}>
                     <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-wider px-1">{cat.label}</span>

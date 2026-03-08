@@ -1,30 +1,19 @@
+## Plan: Admin Authentication, GIF Integration & Cleanup — COMPLETED
 
+### 1. Secure Admin Authentication ✅
+- `ADMIN_MASTER_KEY` stored as backend secret
+- `verify-admin` edge function with constant-time comparison
+- `AdminAuthOverlay` terminal-style component (black bg, green monospace)
+- `sessionStorage` persistence for admin status
+- `isRoomCreator` removed from ChatState and all references
 
-## Plan: Personalized Quick Reactions
+### 2. GIF Integration (Klipy API) ✅
+- `KLIPY_API_KEY` stored as backend secret
+- `gif-search` edge function proxying to Klipy GIF Search API
+- `GifPicker` component with monochromatic grid, grayscale filter, color on hover
+- GIFs sent as ephemeral messages with 12-hour imageExpiry
 
-Track which emojis each user selects and use the top 5 most-used as their quick reaction row, falling back to defaults for new users.
-
-### Implementation
-
-**1. Create `src/hooks/use-frequent-reactions.ts`**
-- Read/write a `Record<string, number>` (emoji → use count) from `localStorage` keyed by `v0id-reaction-freq`
-- Export `useFrequentReactions()` returning `{ quickReactions: string[], recordReaction: (emoji: string) => void }`
-- `quickReactions` returns top 5 by count, falling back to `['✓', '✗', '⚡', '👁', '🔥']` when fewer than 5 have been used
-- `recordReaction` increments the count and persists
-
-**2. Update `src/components/chat/ReactionPicker.tsx`**
-- Import and use `useFrequentReactions()`
-- Replace hardcoded `QUICK_REACTIONS` with `quickReactions` from the hook
-- Call `recordReaction(emoji)` in both the quick-pick handler and the `handlePick` (expanded picker) handler
-- Also update the "Frequently Used" section in the popover to reflect user's personal history (top 12)
-
-**3. Update `src/components/chat/MessageBubble.tsx`**
-- The double-tap react (`onDoubleClick → '⚡'`) should also call `recordReaction('⚡')` — pass `recordReaction` down or have the hook used there too
-
-### Files
-| File | Change |
-|---|---|
-| `src/hooks/use-frequent-reactions.ts` | New hook — localStorage-backed emoji frequency tracker |
-| `src/components/chat/ReactionPicker.tsx` | Use hook for quick row + frequently used section |
-| `src/components/chat/MessageBubble.tsx` | Record double-tap reactions |
-
+### 3. Cleanup ✅
+- `exportHistory` removed (dead code)
+- Unused `ChatMessage` import removed from JoinScreen
+- `importedMessages` param removed from JoinScreen onJoin signature

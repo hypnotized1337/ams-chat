@@ -20,6 +20,7 @@ import { FileAttachment } from './FileAttachment';
 import { isImageOrGif, isImageExpired } from './FileHelpers';
 import { SelfDestructTimer } from './SelfDestructTimer';
 import { ReactionPicker } from './ReactionPicker';
+import { useFrequentReactions } from '@/hooks/use-frequent-reactions';
 import type { InspectedFile } from './FileInspector';
 import type { ReplyTo } from '@/types/chat';
 
@@ -99,6 +100,7 @@ export const MessageBubble = memo(function MessageBubble({
   onEditCancel,
 }: MessageBubbleProps) {
   const [showReactionPicker, setShowReactionPicker] = useState(false);
+  const { recordReaction } = useFrequentReactions();
 
   if (msg.type === 'system') {
     return (
@@ -189,7 +191,7 @@ export const MessageBubble = memo(function MessageBubble({
         </div>
       ) : (
         <div
-          onDoubleClick={() => onReact(msg.id, '⚡')}
+          onDoubleClick={() => { recordReaction('⚡'); onReact(msg.id, '⚡'); }}
           className={`px-3 py-2 text-sm leading-relaxed transition-[filter] duration-150 hover:brightness-110 w-fit max-w-full select-none ${radiusClass} ${
             isOwn
               ? 'bg-message-own text-message-own-foreground'
