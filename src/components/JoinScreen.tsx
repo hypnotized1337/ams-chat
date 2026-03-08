@@ -105,6 +105,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
         supabase.removeChannel(channel);
 
         if (hasActiveUsers) {
+          setRoomTaken(true);
           setError('ROOM ALREADY ACTIVE');
           toast.error('CANNOT SET PASSWORD', {
             description: 'This room already has active users. You cannot add a password to an existing room.',
