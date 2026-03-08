@@ -53,36 +53,36 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
     setCheckingRoom(true);
 
     try {
-      // If creating with password, set it first
-      if (passwordProtect && roomPassword.trim()) {
+      // Always check if room already has a password first
+      const { data: checkData } = await supabase.functions.invoke('room-password', {
+        body: { action: 'check', roomCode: roomName.trim() },
+      });
+
+      const roomAlreadyHasPassword = checkData?.hasPassword;
+
+      if (roomAlreadyHasPassword) {
+        // Room is already locked — must verify password regardless of toggle state
+        if (!needsPassword) {
+          setNeedsPassword(true);
+          setPasswordProtect(false); // hide the toggle, show password prompt instead
+          setCheckingRoom(false);
+          return;
+        }
+        // Verify the password
+        const { data: verifyData } = await supabase.functions.invoke('room-password', {
+          body: { action: 'verify', roomCode: roomName.trim(), password: joinPassword.trim() },
+        });
+
+        if (!verifyData?.valid) {
+          setError('WRONG PASSWORD');
+          setCheckingRoom(false);
+          return;
+        }
+      } else if (passwordProtect && roomPassword.trim()) {
+        // Room has no password yet — set one
         await supabase.functions.invoke('room-password', {
           body: { action: 'set', roomCode: roomName.trim(), password: roomPassword.trim(), username: username.trim() },
         });
-      }
-
-      // Check if room has a password (only if we're not the one setting it)
-      if (!passwordProtect) {
-        const { data } = await supabase.functions.invoke('room-password', {
-          body: { action: 'check', roomCode: roomName.trim() },
-        });
-
-        if (data?.hasPassword) {
-          if (!needsPassword) {
-            setNeedsPassword(true);
-            setCheckingRoom(false);
-            return;
-          }
-          // Verify the password
-          const { data: verifyData } = await supabase.functions.invoke('room-password', {
-            body: { action: 'verify', roomCode: roomName.trim(), password: joinPassword.trim() },
-          });
-
-          if (!verifyData?.valid) {
-            setError('WRONG PASSWORD');
-            setCheckingRoom(false);
-            return;
-          }
-        }
       }
 
       setCheckingRoom(false);
