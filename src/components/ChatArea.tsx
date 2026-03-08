@@ -259,28 +259,51 @@ export function ChatArea({
 
       {/* Messages */}
       <div ref={scrollContainerRef} className="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-2 relative">
+        {/* Empty state */}
+        {!nuking && messages.length === 0 && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <span className="text-sm font-mono text-muted-foreground/40 select-none">
+              say something into the void
+            </span>
+          </motion.div>
+        )}
+
         <AnimatePresence initial={false}>
-          {!nuking && messages.map((msg, i) => (
-            <MessageBubble
-              key={msg.id}
-              msg={msg}
-              isOwn={msg.username === currentUser}
-              index={i}
-              currentTime={currentTime}
-              onImageClick={setFullscreenImage}
-              onInspectFile={setInspectedFile}
-              onEdit={handleStartEdit}
-              onUnsend={onUnsend}
-              onReply={setReplyingTo}
-              onReact={onReact}
-              onScrollToMessage={scrollToMessage}
-              editingId={editingId}
-              editText={editText}
-              onEditTextChange={setEditText}
-              onEditSubmit={handleEditSubmit}
-              onEditCancel={handleEditCancel}
-            />
-          ))}
+          {!nuking && messages.map((msg, i) => {
+            const prev = messages[i - 1];
+            const next = messages[i + 1];
+            const isGroupable = msg.type === 'message' && !msg.deleted;
+            const isFirstInGroup = !isGroupable || !prev || prev.type !== 'message' || prev.deleted || prev.username !== msg.username;
+            const isLastInGroup = !isGroupable || !next || next.type !== 'message' || next.deleted || next.username !== msg.username;
+
+            return (
+              <MessageBubble
+                key={msg.id}
+                msg={msg}
+                isOwn={msg.username === currentUser}
+                index={i}
+                currentTime={currentTime}
+                groupInfo={{ isFirstInGroup, isLastInGroup }}
+                onImageClick={setFullscreenImage}
+                onInspectFile={setInspectedFile}
+                onEdit={handleStartEdit}
+                onUnsend={onUnsend}
+                onReply={setReplyingTo}
+                onReact={onReact}
+                onScrollToMessage={scrollToMessage}
+                editingId={editingId}
+                editText={editText}
+                onEditTextChange={setEditText}
+                onEditSubmit={handleEditSubmit}
+                onEditCancel={handleEditCancel}
+              />
+            );
+          })}
         </AnimatePresence>
 
         {/* Nuke dissolve overlay */}
