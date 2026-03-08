@@ -92,6 +92,7 @@ export function ChatArea({
     setIsScrolledUp(scrolledUp);
     if (!scrolledUp) {
       setUnreadCount(0);
+      setUnreadMarkerId(null);
       userScrolledRef.current = false;
     } else {
       userScrolledRef.current = true;
