@@ -190,8 +190,8 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 1.0 }}
         >
-          <Link to="/changelog" className="text-[9px] text-muted-foreground/50 hover:text-muted-foreground font-mono transition-colors">
-            changelog
+          <Link to="/changelog" className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/80 hover:text-foreground font-mono transition-colors">
+            <GitCommit className="w-3 h-3" /> changelog
           </Link>
         </motion.div>
       </motion.form>
