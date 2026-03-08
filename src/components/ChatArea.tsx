@@ -425,7 +425,7 @@ export function ChatArea({
             />
           </div>
         )}
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center border border-border/60 rounded-xl bg-card/50 px-1">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -441,16 +441,22 @@ export function ChatArea({
             onChange={handleInputChange}
             placeholder={isInputDisabled ? 'Chat is frozen' : 'Message'}
             disabled={isInputDisabled}
-            className="flex-1 bg-input rounded-lg py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-ring transition-colors disabled:opacity-30 disabled:cursor-not-allowed font-sans"
+            className="flex-1 bg-transparent py-2.5 px-2 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors disabled:opacity-30 disabled:cursor-not-allowed font-sans"
             maxLength={2000}
           />
-          <button
+          {input.length > 1800 && (
+            <span className="text-[10px] font-mono text-muted-foreground/60 pr-1">
+              {input.length}/2000
+            </span>
+          )}
+          <motion.button
             type="submit"
             disabled={!input.trim() || isInputDisabled}
-            className="bg-primary text-primary-foreground p-2.5 rounded-lg hover:opacity-90 transition-all active:scale-[0.95] disabled:opacity-20 disabled:cursor-not-allowed"
+            className="bg-primary text-primary-foreground p-2.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+            whileTap={{ scale: 0.9, rotate: -12 }}
           >
             <Send className="w-4 h-4" />
-          </button>
+          </motion.button>
         </div>
       </form>
 
