@@ -16,7 +16,7 @@ import type { InspectedFile } from './FileInspector';
 interface MessageBubbleProps {
   msg: ChatMessage;
   isOwn: boolean;
-  currentUser: string;
+  // currentUser kept for potential future use
   index: number;
   onImageClick: (url: string) => void;
   onInspectFile: (file: InspectedFile) => void;
