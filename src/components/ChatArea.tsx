@@ -202,7 +202,6 @@ export function ChatArea({
   return (
     <div
       className="flex-1 flex flex-col h-screen min-w-0 relative"
-      style={{ zoom: uiScale / 100 }}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
