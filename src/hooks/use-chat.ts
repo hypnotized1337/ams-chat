@@ -90,6 +90,7 @@ const DEFAULT_ROOM_STATE: Omit<ChatState, 'notificationsEnabled'> = {
   frozen: false,
   frozenBy: null,
   isPasswordProtected: false,
+  gingerMode: false,
 };
 
 export function useChat() {
