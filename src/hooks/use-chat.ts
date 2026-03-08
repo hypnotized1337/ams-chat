@@ -414,6 +414,12 @@ export function useChat() {
         }));
       });
 
+      channel.on('broadcast', { event: 'ginger' }, (payload) => {
+        const parsed = safeParse(GingerSchema, payload.payload);
+        if (!parsed) return;
+        setState(prev => ({ ...prev, gingerMode: parsed.enabled }));
+      });
+
       // History sync: respond to requests from rejoining users
       channel.on('broadcast', { event: 'request-history' }, () => {
         // Only the alphabetically first user responds to avoid duplicates
