@@ -423,6 +423,12 @@ export function useChat() {
               frozen: false,
               frozenBy: null,
             }));
+            setTimeout(() => {
+              toast.error('IDENTITY CONFLICT', {
+                description: `"${username}" is already active in this void. Choose another identity.`,
+                duration: 5000,
+              });
+            }, 100);
             resolveJoin({ error: 'Username already active in this void. Please choose another identity.' });
             return;
           }
