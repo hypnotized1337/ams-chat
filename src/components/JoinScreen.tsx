@@ -62,6 +62,8 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
 
       const roomAlreadyHasPassword = checkData?.hasPassword;
 
+      let roomIsActiveAndLocked = false;
+
       if (roomAlreadyHasPassword) {
         // Check if anyone is actually in the room
         const presenceChannel = supabase.channel(`room:${roomName.trim()}`);
@@ -83,8 +85,9 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           await supabase.functions.invoke('room-password', {
             body: { action: 'delete', roomCode: roomName.trim() },
           });
-          // Proceed as if no password existed — fall through to the next block
+          // Proceed as if no password existed
         } else {
+          roomIsActiveAndLocked = true;
           // Room is active and password-protected
           if (!needsPassword) {
             const hadPasswordToggle = passwordProtect;
@@ -117,7 +120,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
       }
 
       // If stale password was cleaned up or room never had a password, allow setting new one
-      const stillHasPassword = roomAlreadyHasPassword && hasActiveUsersInRoom;
+      const stillHasPassword = roomIsActiveAndLocked;
       if (!stillHasPassword && passwordProtect && roomPassword.trim()) {
         // Only allow setting a password if the room is empty (no active users)
         const channel2 = supabase.channel(`room-check:${roomName.trim()}`);
