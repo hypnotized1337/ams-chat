@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Send, Bell, BellOff, LogOut, Plus, ChevronDown, ZoomIn, Users } from 'lucide-react';
+import { Send, Bell, BellOff, LogOut, Plus, ChevronDown, ZoomIn, Users, Lock } from 'lucide-react';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Slider } from '@/components/ui/slider';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
@@ -25,6 +25,7 @@ interface ChatAreaProps {
   frozenBy: string | null;
   nuking: boolean;
   uiScale: number;
+  isPasswordProtected: boolean;
   onScaleChange: (val: number[]) => void;
   onSend: (text: string, replyTo?: ReplyTo) => void;
   onTyping: () => void;
@@ -47,6 +48,7 @@ export function ChatArea({
   frozen,
   frozenBy,
   nuking,
+  isPasswordProtected,
   uiScale,
   onScaleChange,
   onSend,
@@ -244,6 +246,12 @@ export function ChatArea({
         >
           <Users className="w-4 h-4" />
         </button>
+        {isPasswordProtected && (
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <Lock className="w-3 h-3" />
+            <span className="text-[10px] font-mono">locked</span>
+          </div>
+        )}
         <div className="flex-1" />
         <div className="flex items-center gap-1">
           <Popover>

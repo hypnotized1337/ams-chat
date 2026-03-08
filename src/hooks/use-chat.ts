@@ -94,6 +94,7 @@ export function useChat() {
       typingUsers: [],
       frozen: false,
       frozenBy: null,
+      isPasswordProtected: false,
     };
   });
 
@@ -183,7 +184,7 @@ export function useChat() {
     return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
-  const joinRoom = useCallback((username: string, roomCode: string, skipDuplicateCheck = false): Promise<{ error: string | null }> => {
+  const joinRoom = useCallback((username: string, roomCode: string, skipDuplicateCheck = false, isPasswordProtected = false): Promise<{ error: string | null }> => {
     return new Promise((resolveJoin) => {
       if (channelRef.current) {
         supabase.removeChannel(channelRef.current);
@@ -207,6 +208,7 @@ export function useChat() {
         typingUsers: [],
         frozen: false,
         frozenBy: null,
+        isPasswordProtected,
       }));
 
       const channel = supabase.channel(`room:${roomCode}`, {
@@ -388,6 +390,7 @@ export function useChat() {
             typingUsers: [],
             frozen: false,
             frozenBy: null,
+            isPasswordProtected: false,
           }));
           setTimeout(() => {
             toast.error('YOU HAVE BEEN REMOVED', {
@@ -430,6 +433,11 @@ export function useChat() {
 
         if (users.length === 0) {
           setState(prev => ({ ...prev, messages: [] }));
+          // Clean up room password when room empties
+          const currentRoom = roomCode;
+          supabase.functions.invoke('room-password', {
+            body: { action: 'delete', roomCode: currentRoom },
+          }).catch(() => {});
         }
 
         // Post-join duplicate check: wait for presence to settle, then check
@@ -462,6 +470,7 @@ export function useChat() {
               typingUsers: [],
               frozen: false,
               frozenBy: null,
+              isPasswordProtected: false,
             }));
             setTimeout(() => {
               toast.error('IDENTITY CONFLICT', {
@@ -524,6 +533,7 @@ export function useChat() {
       typingUsers: [],
       frozen: false,
       frozenBy: null,
+      isPasswordProtected: false,
     }));
   }, []);
 
