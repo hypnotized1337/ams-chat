@@ -529,6 +529,16 @@ export function ChatArea({
         )}
       </AnimatePresence>
 
+      {/* Video inspector */}
+      <AnimatePresence>
+        {inspectedVideo && (
+          <VideoInspector
+            video={inspectedVideo}
+            onClose={() => setInspectedVideo(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Mobile sidebar sheet */}
       <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
         <SheetContent side="left" className="p-0 w-56">
