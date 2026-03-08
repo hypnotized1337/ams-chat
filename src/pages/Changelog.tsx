@@ -29,6 +29,7 @@ export default function Changelog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
+  const [summaryCached, setSummaryCached] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
   const [summaryError, setSummaryError] = useState<string | null>(null);
 
@@ -87,6 +88,7 @@ export default function Changelog() {
       if (error) throw new Error(error.message);
       if (data?.error) throw new Error(data.error);
       setSummary(data.summary);
+      setSummaryCached(!!data.cached);
     } catch (e: any) {
       setSummaryError(e.message || 'Failed to summarize');
     } finally {
@@ -138,6 +140,9 @@ export default function Changelog() {
               <div className="flex items-center justify-between px-3 py-2 border-b border-border">
                 <span className="text-[10px] text-muted-foreground flex items-center gap-1.5">
                   <Sparkles className="w-3 h-3" /> ai summary
+                  {summaryCached && (
+                    <span className="text-[9px] text-muted-foreground/60 border border-border rounded px-1 py-0.5 leading-none">cached</span>
+                  )}
                 </span>
                 <button
                   onClick={() => setSummary(null)}
