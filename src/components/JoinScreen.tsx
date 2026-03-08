@@ -8,7 +8,7 @@ import { ChangelogDialog } from '@/components/ChangelogDialog';
 import { supabase } from '@/integrations/supabase/client';
 
 interface JoinScreenProps {
-  onJoin: (username: string, roomCode: string) => Promise<{ error: string | null }>;
+  onJoin: (username: string, roomCode: string, isPasswordProtected: boolean) => Promise<{ error: string | null }>;
 }
 
 function GlitchTitle() {
