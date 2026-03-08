@@ -707,28 +707,12 @@ export function useChat() {
 
   const reactToMessage = useCallback((messageId: string, emoji: string) => {
     const username = usernameRef.current;
-    // Update locally
     setState(prev => ({
       ...prev,
-      messages: prev.messages.map(m => {
-        if (m.id !== messageId) return m;
-        const reactions = { ...(m.reactions || {}) };
-        const users = [...(reactions[emoji] || [])];
-        const idx = users.indexOf(username);
-        if (idx >= 0) {
-          users.splice(idx, 1);
-          if (users.length === 0) {
-            delete reactions[emoji];
-          } else {
-            reactions[emoji] = users;
-          }
-        } else {
-          reactions[emoji] = [...users, username];
-        }
-        return { ...m, reactions: Object.keys(reactions).length > 0 ? reactions : undefined };
-      }),
+      messages: prev.messages.map(m =>
+        m.id !== messageId ? m : { ...m, reactions: toggleReaction(m.reactions, emoji, username) }
+      ),
     }));
-    // Broadcast
     if (channelRef.current) {
       channelRef.current.send({ type: 'broadcast', event: 'reaction', payload: { messageId, emoji, username } });
     }
