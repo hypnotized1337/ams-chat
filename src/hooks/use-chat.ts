@@ -431,6 +431,11 @@ export function useChat() {
 
         if (users.length === 0) {
           setState(prev => ({ ...prev, messages: [] }));
+          // Clean up room password when room empties
+          const currentRoom = roomCode;
+          supabase.functions.invoke('room-password', {
+            body: { action: 'delete', roomCode: currentRoom },
+          }).catch(() => {});
         }
 
         // Post-join duplicate check: wait for presence to settle, then check
