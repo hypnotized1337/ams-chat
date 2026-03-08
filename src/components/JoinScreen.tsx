@@ -503,6 +503,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           </Link>
         </motion.div>
       </motion.form>
+      </LayoutGroup>
     </div>
   );
 }
