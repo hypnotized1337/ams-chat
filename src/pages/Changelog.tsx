@@ -28,6 +28,7 @@ export default function Changelog() {
   const [summaryCached, setSummaryCached] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
   const [summaryError, setSummaryError] = useState<string | null>(null);
+  const [commitsCached, setCommitsCached] = useState(false);
 
   useEffect(() => {
     async function fetchAllCommits() {
