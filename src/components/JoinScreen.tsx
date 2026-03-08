@@ -127,6 +127,11 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
         <p className="text-[9px] text-muted-foreground leading-relaxed font-mono text-center">
           all messages self-destruct after 10 minutes. no logs. no history.
         </p>
+        <div className="text-center">
+          <Link to="/changelog" className="text-[9px] text-muted-foreground/50 hover:text-muted-foreground font-mono transition-colors">
+            changelog
+          </Link>
+        </div>
       </motion.form>
     </div>
   );

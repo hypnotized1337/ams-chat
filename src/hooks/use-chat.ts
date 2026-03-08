@@ -322,10 +322,14 @@ export function useChat() {
       const parsed = safeParse(KickSchema, payload.payload);
       if (!parsed) return;
       if (parsed.username === usernameRef.current) {
-        // We are being kicked
+        // We are being kicked — untrack presence first
         if (channelRef.current) {
-          supabase.removeChannel(channelRef.current);
-          channelRef.current = null;
+          channelRef.current.untrack().then(() => {
+            if (channelRef.current) {
+              supabase.removeChannel(channelRef.current);
+              channelRef.current = null;
+            }
+          });
         }
         setState(prev => ({
           ...prev,
@@ -338,9 +342,11 @@ export function useChat() {
           frozen: false,
           frozenBy: null,
         }));
-        // Show alert after state reset
         setTimeout(() => {
-          alert('[SYSTEM]: YOU HAVE BEEN REMOVED');
+          toast.error('YOU HAVE BEEN REMOVED', {
+            description: 'An admin removed you from the void.',
+            duration: 5000,
+          });
         }, 100);
       } else {
         // Someone else was kicked — show system message
