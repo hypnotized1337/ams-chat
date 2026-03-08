@@ -34,6 +34,15 @@ const Index = () => {
 
   useScreenshotDetect(broadcastScreenshot, state.isJoined);
 
+  useEffect(() => {
+    if (state.gingerMode) {
+      document.documentElement.classList.add('ginger-theme');
+    } else {
+      document.documentElement.classList.remove('ginger-theme');
+    }
+    return () => document.documentElement.classList.remove('ginger-theme');
+  }, [state.gingerMode]);
+
   const handleSend = (text: string, replyTo?: { id: string; username: string; text: string }) => {
     if (text.trim() === '/admin') {
       if (sessionStorage.getItem('is_admin') === 'true') {
