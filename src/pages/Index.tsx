@@ -27,6 +27,11 @@ const Index = () => {
     localStorage.setItem('v0id-ui-scale', String(s));
   }, []);
 
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${uiScale}%`;
+    return () => { document.documentElement.style.fontSize = ''; };
+  }, [uiScale]);
+
   useScreenshotDetect(broadcastScreenshot, state.isJoined);
 
   const handleSend = (text: string, replyTo?: { id: string; username: string; text: string }) => {
