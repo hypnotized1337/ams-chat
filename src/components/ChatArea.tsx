@@ -87,7 +87,7 @@ function FileInspector({ fileName, fileSize, fileUrl, onClose }: FileInspectorPr
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 border border-foreground flex items-center justify-center shrink-0">
-              <FileText className="w-5 h-5 text-foreground" />
+              <IconComponent className="w-5 h-5 text-foreground" />
             </div>
             <div className="space-y-1 min-w-0 flex-1">
               <p className="text-sm font-mono text-foreground break-all">
