@@ -546,17 +546,15 @@ export function useChat() {
   }, [checkRateLimit]);
 
   const toggleNotifications = useCallback(async () => {
-    if (!state.notificationsEnabled) {
-      localStorage.setItem('chat_notif_pref', 'true');
-      setState(prev => ({ ...prev, notificationsEnabled: true }));
-      if ('Notification' in window && Notification.permission === 'default') {
+    setState(prev => {
+      const next = !prev.notificationsEnabled;
+      localStorage.setItem('chat_notif_pref', String(next));
+      if (next && 'Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
       }
-    } else {
-      localStorage.setItem('chat_notif_pref', 'false');
-      setState(prev => ({ ...prev, notificationsEnabled: false }));
-    }
-  }, [state.notificationsEnabled]);
+      return { ...prev, notificationsEnabled: next };
+    });
+  }, []);
 
   const nukeRoom = useCallback(() => {
     if (channelRef.current) {
