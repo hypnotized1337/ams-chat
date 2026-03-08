@@ -8,6 +8,28 @@ import { toast } from 'sonner';
 const generateId = () => Math.random().toString(36).substring(2, 12);
 const TEN_MINUTES = 10 * 60 * 1000;
 
+/** Toggle a user in a reaction emoji's user list, returning updated reactions or undefined if empty */
+function toggleReaction(
+  reactions: Record<string, string[]> | undefined,
+  emoji: string,
+  username: string,
+): Record<string, string[]> | undefined {
+  const updated = { ...(reactions || {}) };
+  const users = [...(updated[emoji] || [])];
+  const idx = users.indexOf(username);
+  if (idx >= 0) {
+    users.splice(idx, 1);
+    if (users.length === 0) {
+      delete updated[emoji];
+    } else {
+      updated[emoji] = users;
+    }
+  } else {
+    updated[emoji] = [...users, username];
+  }
+  return Object.keys(updated).length > 0 ? updated : undefined;
+}
+
 // Rate limiting config
 const RATE_LIMIT_COUNT = 5;
 const RATE_LIMIT_WINDOW = 3000; // 3 seconds
@@ -158,7 +180,7 @@ export function useChat() {
     return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
-  // No longer needed — duplicate check is done post-join inside joinRoom
+  
 
   const joinRoom = useCallback((username: string, roomCode: string, skipDuplicateCheck = false): Promise<{ error: string | null }> => {
     return new Promise((resolveJoin) => {
@@ -360,23 +382,9 @@ export function useChat() {
         if (!parsed) return;
         setState(prev => ({
           ...prev,
-          messages: prev.messages.map(m => {
-            if (m.id !== parsed.messageId) return m;
-            const reactions = { ...(m.reactions || {}) };
-            const users = [...(reactions[parsed.emoji] || [])];
-            const idx = users.indexOf(parsed.username);
-            if (idx >= 0) {
-              users.splice(idx, 1);
-              if (users.length === 0) {
-                delete reactions[parsed.emoji];
-              } else {
-                reactions[parsed.emoji] = users;
-              }
-            } else {
-              reactions[parsed.emoji] = [...users, parsed.username];
-            }
-            return { ...m, reactions: Object.keys(reactions).length > 0 ? reactions : undefined };
-          }),
+          messages: prev.messages.map(m =>
+            m.id !== parsed.messageId ? m : { ...m, reactions: toggleReaction(m.reactions, parsed.emoji, parsed.username) }
+          ),
         }));
       });
 
@@ -538,17 +546,15 @@ export function useChat() {
   }, [checkRateLimit]);
 
   const toggleNotifications = useCallback(async () => {
-    if (!state.notificationsEnabled) {
-      localStorage.setItem('chat_notif_pref', 'true');
-      setState(prev => ({ ...prev, notificationsEnabled: true }));
-      if ('Notification' in window && Notification.permission === 'default') {
+    setState(prev => {
+      const next = !prev.notificationsEnabled;
+      localStorage.setItem('chat_notif_pref', String(next));
+      if (next && 'Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
       }
-    } else {
-      localStorage.setItem('chat_notif_pref', 'false');
-      setState(prev => ({ ...prev, notificationsEnabled: false }));
-    }
-  }, [state.notificationsEnabled]);
+      return { ...prev, notificationsEnabled: next };
+    });
+  }, []);
 
   const nukeRoom = useCallback(() => {
     if (channelRef.current) {
@@ -701,28 +707,12 @@ export function useChat() {
 
   const reactToMessage = useCallback((messageId: string, emoji: string) => {
     const username = usernameRef.current;
-    // Update locally
     setState(prev => ({
       ...prev,
-      messages: prev.messages.map(m => {
-        if (m.id !== messageId) return m;
-        const reactions = { ...(m.reactions || {}) };
-        const users = [...(reactions[emoji] || [])];
-        const idx = users.indexOf(username);
-        if (idx >= 0) {
-          users.splice(idx, 1);
-          if (users.length === 0) {
-            delete reactions[emoji];
-          } else {
-            reactions[emoji] = users;
-          }
-        } else {
-          reactions[emoji] = [...users, username];
-        }
-        return { ...m, reactions: Object.keys(reactions).length > 0 ? reactions : undefined };
-      }),
+      messages: prev.messages.map(m =>
+        m.id !== messageId ? m : { ...m, reactions: toggleReaction(m.reactions, emoji, username) }
+      ),
     }));
-    // Broadcast
     if (channelRef.current) {
       channelRef.current.send({ type: 'broadcast', event: 'reaction', payload: { messageId, emoji, username } });
     }
