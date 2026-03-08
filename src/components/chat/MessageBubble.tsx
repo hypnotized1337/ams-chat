@@ -100,6 +100,7 @@ export const MessageBubble = memo(function MessageBubble({
   onEditCancel,
 }: MessageBubbleProps) {
   const [showReactionPicker, setShowReactionPicker] = useState(false);
+  const { recordReaction } = useFrequentReactions();
 
   if (msg.type === 'system') {
     return (
