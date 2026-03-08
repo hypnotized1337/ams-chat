@@ -423,6 +423,8 @@ export function useChat() {
         }));
       });
 
+      let hasHadUsers = false;
+
       channel.on('presence', { event: 'sync' }, () => {
         const presenceState = channel.presenceState();
         const users: RoomUser[] = Object.keys(presenceState).map(key => ({
@@ -431,7 +433,11 @@ export function useChat() {
         }));
         setState(prev => ({ ...prev, users }));
 
-        if (users.length === 0) {
+        if (users.length > 0) {
+          hasHadUsers = true;
+        }
+
+        if (users.length === 0 && hasHadUsers) {
           setState(prev => ({ ...prev, messages: [] }));
           // Clean up room password when room empties
           const currentRoom = roomCode;
