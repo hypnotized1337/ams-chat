@@ -69,6 +69,7 @@ const UnsendSchema = z.object({ messageId: z.string().max(50) });
 const ScreenshotSchema = z.object({ username: z.string().max(20) });
 const KickSchema = z.object({ username: z.string().max(20) });
 const ReactionSchema = z.object({ messageId: z.string().max(50), emoji: z.string().max(4), username: z.string().max(20) });
+const GingerSchema = z.object({ enabled: z.boolean() });
 
 function safeParse<T>(schema: z.ZodSchema<T>, data: unknown): T | null {
   const result = schema.safeParse(data);
