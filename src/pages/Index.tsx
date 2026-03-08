@@ -68,7 +68,7 @@ const Index = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden" style={{ zoom: uiScale / 100 }}>
+    <div className="flex h-screen w-full overflow-hidden">
       <ChatSidebar
         roomCode={state.roomCode}
         users={state.users}
