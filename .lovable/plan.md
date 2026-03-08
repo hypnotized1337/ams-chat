@@ -1,38 +1,19 @@
+## Plan: Admin Authentication, GIF Integration & Cleanup — COMPLETED
 
+### 1. Secure Admin Authentication ✅
+- `ADMIN_MASTER_KEY` stored as backend secret
+- `verify-admin` edge function with constant-time comparison
+- `AdminAuthOverlay` terminal-style component (black bg, green monospace)
+- `sessionStorage` persistence for admin status
+- `isRoomCreator` removed from ChatState and all references
 
-## Plan: Brighten Changelog Button + AI Commit Summarization
+### 2. GIF Integration (Klipy API) ✅
+- `KLIPY_API_KEY` stored as backend secret
+- `gif-search` edge function proxying to Klipy GIF Search API
+- `GifPicker` component with monochromatic grid, grayscale filter, color on hover
+- GIFs sent as ephemeral messages with 12-hour imageExpiry
 
-### 1. Make Changelog Link More Visible on Join Screen
-
-**File:** `src/components/JoinScreen.tsx` (line 193)
-
-Current: `text-[9px] text-muted-foreground/50` — nearly invisible.
-
-Change to: `text-[10px] text-muted-foreground/80 hover:text-foreground` with a small `GitCommit` icon prefix. Keep same location (bottom of form).
-
-### 2. Create Edge Function for AI Summarization
-
-**File:** `supabase/functions/summarize-changelog/index.ts`
-
-- Accepts an array of commit messages
-- Calls Lovable AI gateway with `google/gemini-2.5-flash-lite` (cheapest model)
-- System prompt: "Summarize these git commits into a concise, grouped changelog. Use categories like Added, Fixed, Changed, Improved. Be brief."
-- Returns the summary text (non-streaming, simple invoke)
-
-### 3. Add "Summarize with AI" Button to `/changelog` Page
-
-**File:** `src/pages/Changelog.tsx`
-
-- Add a "summarize with ai" button next to the title
-- On click, send all commit messages to the edge function
-- Show loading state, then render the AI summary in a styled card above the commit list
-- Summary can be dismissed/collapsed
-
-### Files
-
-| File | Change |
-|---|---|
-| `src/components/JoinScreen.tsx` | Brighten changelog link text + add icon |
-| `supabase/functions/summarize-changelog/index.ts` | New edge function using Lovable AI (gemini-2.5-flash-lite) |
-| `src/pages/Changelog.tsx` | Add "summarize with ai" button + summary display |
-
+### 3. Cleanup ✅
+- `exportHistory` removed (dead code)
+- Unused `ChatMessage` import removed from JoinScreen
+- `importedMessages` param removed from JoinScreen onJoin signature
