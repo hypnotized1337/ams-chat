@@ -114,18 +114,13 @@ export const MessageBubble = memo(function MessageBubble({
   onEdit,
   onUnsend,
   onReply,
-  onReact,
   onScrollToMessage,
   editingId,
   editText,
   onEditTextChange,
   onEditSubmit,
   onEditCancel,
-  quickReactions,
-  frequentlyUsed,
-  recordReaction,
 }: MessageBubbleProps) {
-  const [showReactionPicker, setShowReactionPicker] = useState(false);
 
   if (msg.type === 'system') {
     return (
