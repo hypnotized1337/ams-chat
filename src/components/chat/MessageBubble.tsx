@@ -47,6 +47,14 @@ interface MessageBubbleProps {
 }
 
 const URL_RE = /https?:\/\/[^\s<>"')\]]+/g;
+const IMAGE_EXT_RE = /\.(gif|png|jpg|jpeg|webp|svg)(\?|$)/i;
+
+function extractFirstUrl(text: string): string | null {
+  URL_RE.lastIndex = 0;
+  const m = URL_RE.exec(text);
+  if (m && !IMAGE_EXT_RE.test(m[0])) return m[0];
+  return null;
+}
 
 function renderMessageText(text: string) {
   const parts: (string | JSX.Element)[] = [];

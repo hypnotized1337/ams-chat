@@ -135,5 +135,6 @@ const Index = () => {
       )}
     </AnimatePresence>
   );
+};
 
 export default Index;
