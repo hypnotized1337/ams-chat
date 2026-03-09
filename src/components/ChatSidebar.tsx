@@ -82,7 +82,7 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
       <div className="p-4">
         <button
           onClick={onLeave}
-          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-red-400 transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
+          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-destructive transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
         >
           <LogOut className="w-3.5 h-3.5" />
           <span className="text-xs font-mono">Leave</span>
