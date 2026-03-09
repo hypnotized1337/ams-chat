@@ -26,7 +26,7 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
   const [isRoomNameHovered, setIsRoomNameHovered] = useState(false);
   
   return (
-    <div className={`w-56 h-full bg-card flex flex-col shrink-0 ${className ?? 'hidden md:flex'}`}>
+    <div className={`w-56 h-full bg-card flex flex-col shrink-0 border-r border-border/30 ${className ?? 'hidden md:flex'}`}>
       <div className="p-4">
         <span className="text-xs font-medium text-muted-foreground">Room</span>
         <p 
@@ -46,6 +46,8 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
           <span className="text-[10px] font-mono">messages expire in 10m</span>
         </div>
       </div>
+
+      <div className="mx-4 h-px bg-border/30" />
 
       <div className="flex-1 p-4 overflow-y-auto scrollbar-thin">
         <div className="flex items-center gap-1.5 mb-3">
@@ -80,7 +82,7 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
       <div className="p-4">
         <button
           onClick={onLeave}
-          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
+          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-red-400 transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
         >
           <LogOut className="w-4 h-4" />
           Leave

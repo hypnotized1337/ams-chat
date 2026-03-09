@@ -200,14 +200,14 @@ export const MessageBubble = memo(function MessageBubble({
               if (e.key === 'Enter') onEditSubmit(msg.id);
               if (e.key === 'Escape') onEditCancel();
             }}
-            className="flex-1 bg-input rounded-lg py-2 px-3 text-sm text-foreground outline-none"
+            className="flex-1 bg-input rounded-2xl py-2 px-3.5 text-sm text-foreground outline-none"
           />
         </div>
       ) : (
         <div
-          className={`px-3 py-2 text-sm leading-relaxed transition-[filter] duration-150 hover:brightness-110 w-fit max-w-full select-none ${radiusClass} ${
+          className={`px-3.5 py-2 text-sm leading-relaxed transition-[filter] duration-150 hover:brightness-110 w-fit max-w-full select-none ${radiusClass} ${
             isOwn
-              ? 'bg-message-own text-message-own-foreground'
+              ? 'bg-message-own text-message-own-foreground shadow-sm'
               : 'bg-message-other text-message-other-foreground'
           }`}
         >

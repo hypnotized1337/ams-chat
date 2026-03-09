@@ -233,7 +233,7 @@ export function ChatArea({
       )}
 
       {/* Header */}
-      <header className="h-12 flex items-center px-4 shrink-0 bg-card/80 backdrop-blur-xl border-b border-border/50 sticky top-0 z-20">
+      <header className="h-12 flex items-center px-4 shrink-0 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.3)] sticky top-0 z-20">
         <button
           onClick={() => setMobileSidebarOpen(true)}
           className="p-2 rounded-md text-muted-foreground hover:text-foreground transition-colors md:hidden"
@@ -246,7 +246,11 @@ export function ChatArea({
             <span className="text-[10px] font-mono">locked</span>
           </div>
         )}
-        <div className="flex-1" />
+        <div className="flex-1 flex justify-center">
+          <span className="text-[10px] font-mono text-muted-foreground/50 tracking-wider select-none">
+            {'•'.repeat(Math.min(roomCode.length, 12))}
+          </span>
+        </div>
         <div className="flex items-center gap-1">
           <Popover>
             <PopoverTrigger asChild>
@@ -425,16 +429,24 @@ export function ChatArea({
       </AnimatePresence>
 
       {/* Typing indicator */}
-      {typingUsers.length > 0 && (
-        <div className="px-4 pb-1 flex items-center gap-2">
-          <div className="bg-message-other rounded-2xl rounded-bl-sm px-3 py-2 flex items-center gap-1">
-            <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
-            <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
-            <span className="typing-dot w-1.5 h-1.5 rounded-full bg-muted-foreground inline-block" />
-          </div>
-          <span className="text-[11px] text-muted-foreground">{typingUsers.join(', ')}</span>
-        </div>
-      )}
+      <AnimatePresence>
+        {typingUsers.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.2 }}
+            className="px-4 pb-1 flex items-center gap-2"
+          >
+            <div className="bg-message-other rounded-2xl rounded-bl-sm px-2.5 py-1.5 flex items-center gap-1">
+              <span className="typing-dot w-1 h-1 rounded-full bg-muted-foreground inline-block" />
+              <span className="typing-dot w-1 h-1 rounded-full bg-muted-foreground inline-block" />
+              <span className="typing-dot w-1 h-1 rounded-full bg-muted-foreground inline-block" />
+            </div>
+            <span className="text-[10px] text-muted-foreground">{typingUsers.join(', ')}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* File input */}
       <input
@@ -468,7 +480,7 @@ export function ChatArea({
             />
           </div>
         )}
-        <div className="flex gap-1 items-center border border-border/60 rounded-xl bg-card/50 px-1">
+        <div className="flex gap-1 items-center border border-border/60 focus-within:border-border rounded-xl bg-card/50 px-1 transition-colors">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -495,7 +507,7 @@ export function ChatArea({
           <motion.button
             type="submit"
             disabled={!input.trim() || isInputDisabled}
-            className="bg-primary text-primary-foreground p-2.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+            className="bg-primary text-primary-foreground p-2.5 rounded-xl hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
             whileTap={{ scale: 0.9, rotate: -12 }}
           >
             <Send className="w-4 h-4" />

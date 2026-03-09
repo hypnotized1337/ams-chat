@@ -225,7 +225,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
       <LayoutGroup>
       <motion.form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-5 relative z-10"
+        className="w-full max-w-sm space-y-5 relative z-10 border border-border/30 bg-card/20 backdrop-blur-sm rounded-2xl p-6"
         initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -490,7 +490,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           messages self-destruct in 10m. media purged on exit. nothing stored.
         </motion.p>
         <motion.div
-          className="flex flex-col items-center gap-1.5"
+          className="flex flex-col items-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 1.0 }}
