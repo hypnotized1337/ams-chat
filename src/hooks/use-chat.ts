@@ -378,16 +378,6 @@ export function useChat() {
         }
       });
 
-      channel.on('broadcast', { event: 'reaction' }, (payload) => {
-        const parsed = safeParse(ReactionSchema, payload.payload);
-        if (!parsed) return;
-        setState(prev => ({
-          ...prev,
-          messages: prev.messages.map(m =>
-            m.id !== parsed.messageId ? m : { ...m, reactions: toggleReaction(m.reactions, parsed.emoji, parsed.username) }
-          ),
-        }));
-      });
 
       // History sync: respond to requests from rejoining users
       channel.on('broadcast', { event: 'request-history' }, () => {
