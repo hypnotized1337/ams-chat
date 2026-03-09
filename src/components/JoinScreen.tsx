@@ -225,7 +225,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
       <LayoutGroup>
       <motion.form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-5 relative z-10 border border-border/30 bg-card/20 backdrop-blur-sm rounded-2xl p-6"
+        className="w-full max-w-sm space-y-5 relative z-10 border border-border/20 bg-card/30 backdrop-blur-md rounded-2xl p-7 shadow-[0_0_80px_-20px_hsl(var(--foreground)/0.04)]"
         initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
