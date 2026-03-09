@@ -200,7 +200,7 @@ export const MessageBubble = memo(function MessageBubble({
               if (e.key === 'Enter') onEditSubmit(msg.id);
               if (e.key === 'Escape') onEditCancel();
             }}
-            className="flex-1 bg-input rounded-lg py-2 px-3 text-sm text-foreground outline-none"
+            className="flex-1 bg-input rounded-2xl py-2 px-3.5 text-sm text-foreground outline-none"
           />
         </div>
       ) : (

@@ -490,7 +490,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           messages self-destruct in 10m. media purged on exit. nothing stored.
         </motion.p>
         <motion.div
-          className="flex flex-col items-center gap-1.5"
+          className="flex flex-col items-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 1.0 }}
