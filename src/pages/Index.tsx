@@ -96,7 +96,7 @@ const Index = () => {
         onUnsend={unsendMessage}
         onSendImage={sendImage}
         onSendGif={sendGif}
-        onReact={reactToMessage}
+        
       />
       {authOverlay && (
         <AdminAuthOverlay

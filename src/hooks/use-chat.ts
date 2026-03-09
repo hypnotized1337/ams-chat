@@ -747,22 +747,9 @@ export function useChat() {
     }));
   }, []);
 
-  const reactToMessage = useCallback((messageId: string, emoji: string) => {
-    const username = usernameRef.current;
-    setState(prev => ({
-      ...prev,
-      messages: prev.messages.map(m =>
-        m.id !== messageId ? m : { ...m, reactions: toggleReaction(m.reactions, emoji, username) }
-      ),
-    }));
-    if (channelRef.current) {
-      channelRef.current.send({ type: 'broadcast', event: 'reaction', payload: { messageId, emoji, username } });
-    }
-  }, []);
-
   return {
     state, joinRoom, leaveRoom, sendMessage, sendTyping, sendGif,
     toggleNotifications, nukeRoom, freezeChat, sendAnnouncement, editMessage, unsendMessage, sendImage,
-    broadcastScreenshot, kickUser, reactToMessage,
+    broadcastScreenshot, kickUser,
   };
 }

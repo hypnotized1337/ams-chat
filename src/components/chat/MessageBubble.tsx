@@ -264,9 +264,6 @@ export const MessageBubble = memo(function MessageBubble({
           Copy
         </ContextMenuItem>
       )}
-      <ContextMenuItem onSelect={() => setShowReactionPicker(prev => !prev)}>
-        React
-      </ContextMenuItem>
     </ContextMenuContent>
   );
 

@@ -330,16 +330,12 @@ export function ChatArea({
                   onEdit={handleStartEdit}
                   onUnsend={onUnsend}
                   onReply={setReplyingTo}
-                  onReact={onReact}
                   onScrollToMessage={scrollToMessage}
                   editingId={editingId}
                   editText={editText}
                   onEditTextChange={setEditText}
                   onEditSubmit={handleEditSubmit}
                   onEditCancel={handleEditCancel}
-                  quickReactions={quickReactions}
-                  frequentlyUsed={frequentlyUsed}
-                  recordReaction={recordReaction}
                 />
               </div>
             ))}
