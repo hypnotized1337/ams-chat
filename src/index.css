@@ -222,3 +222,12 @@
   background-size: 200% 100%;
   animation: marker-shimmer 2s ease-in-out;
 }
+
+/* Subtle hover lift for interactive cards */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.05);
+}

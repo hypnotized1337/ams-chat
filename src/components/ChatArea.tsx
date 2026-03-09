@@ -233,7 +233,7 @@ export function ChatArea({
       )}
 
       {/* Header */}
-      <header className="h-12 flex items-center px-4 shrink-0 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.3)] sticky top-0 z-20">
+      <header className="h-12 flex items-center px-4 shrink-0 bg-card/60 backdrop-blur-xl border-b border-border/30 shadow-[0_1px_6px_rgba(0,0,0,0.4)] sticky top-0 z-20">
         <button
           onClick={() => setMobileSidebarOpen(true)}
           className="p-2 rounded-md text-muted-foreground hover:text-foreground transition-colors md:hidden"
@@ -306,9 +306,14 @@ export function ChatArea({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <span className="text-sm font-mono text-muted-foreground/40 select-none void-pulse">
-              say something into the void
-            </span>
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-sm font-mono text-muted-foreground/30 select-none void-pulse">
+                say something into the void
+              </span>
+              <span className="text-[10px] font-mono text-muted-foreground/15 select-none">
+                messages are ephemeral
+              </span>
+            </div>
           </motion.div>
         )}
 
@@ -480,7 +485,7 @@ export function ChatArea({
             />
           </div>
         )}
-        <div className="flex gap-1 items-center border border-border/60 focus-within:border-border rounded-xl bg-card/50 px-1 transition-colors">
+        <div className="flex gap-1 items-center border border-border/30 focus-within:border-border/60 rounded-xl bg-card/40 backdrop-blur-sm px-1 transition-all duration-200">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -507,7 +512,7 @@ export function ChatArea({
           <motion.button
             type="submit"
             disabled={!input.trim() || isInputDisabled}
-            className="bg-primary text-primary-foreground p-2.5 rounded-xl hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+            className="bg-primary text-primary-foreground p-2 rounded-lg hover:opacity-90 transition-all disabled:opacity-10 disabled:cursor-not-allowed"
             whileTap={{ scale: 0.9, rotate: -12 }}
           >
             <Send className="w-4 h-4" />

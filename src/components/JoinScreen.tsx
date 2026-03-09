@@ -225,7 +225,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
       <LayoutGroup>
       <motion.form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-5 relative z-10 border border-border/30 bg-card/20 backdrop-blur-sm rounded-2xl p-6"
+        className="w-full max-w-sm space-y-5 relative z-10 border border-border/20 bg-card/30 backdrop-blur-md rounded-2xl p-7 shadow-[0_0_80px_-20px_hsl(var(--foreground)/0.04)]"
         initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -237,6 +237,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <GlitchTitle />
+          <p className="text-[10px] font-mono text-muted-foreground/30 tracking-[0.2em] uppercase mt-1.5">ephemeral chat</p>
         </motion.div>
 
         {/* Mode tabs */}
@@ -453,7 +454,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           <motion.button
             type="submit"
             disabled={isSubmitDisabled}
-            className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-md flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed font-mono relative join-button-glow"
+            className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed font-mono text-sm relative join-button-glow"
             whileTap={{ scale: 0.97 }}
             whileHover={!isSubmitDisabled ? { scale: 1.01 } : undefined}
           >
@@ -487,19 +488,20 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.9 }}
         >
-          messages self-destruct in 10m. media purged on exit. nothing stored.
+          messages self-destruct in 10m · media purged on exit · nothing stored
         </motion.p>
         <motion.div
-          className="flex flex-col items-center gap-3"
+          className="flex items-center justify-center gap-4 pt-1"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 1.0 }}
         >
-          <Link to="/changelog" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground font-mono transition-colors">
-            <GitCommit className="w-3.5 h-3.5" /> changelog
+          <Link to="/changelog" className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/50 hover:text-muted-foreground font-mono transition-colors">
+            <GitCommit className="w-3 h-3" /> changelog
           </Link>
-          <Link to="/features" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/80 hover:text-foreground font-mono transition-colors">
-            <Sparkles className="w-3.5 h-3.5" /> features
+          <span className="text-muted-foreground/20 text-[10px]">·</span>
+          <Link to="/features" className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/50 hover:text-muted-foreground font-mono transition-colors">
+            <Sparkles className="w-3 h-3" /> features
           </Link>
         </motion.div>
       </motion.form>

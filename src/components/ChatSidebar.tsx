@@ -26,11 +26,11 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
   const [isRoomNameHovered, setIsRoomNameHovered] = useState(false);
   
   return (
-    <div className={`w-56 h-full bg-card flex flex-col shrink-0 border-r border-border/30 ${className ?? 'hidden md:flex'}`}>
-      <div className="p-4">
-        <span className="text-xs font-medium text-muted-foreground">Room</span>
+    <div className={`w-56 h-full bg-card/80 backdrop-blur-sm flex flex-col shrink-0 border-r border-border/20 ${className ?? 'hidden md:flex'}`}>
+      <div className="p-4 pb-3">
+        <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/50">Room</span>
         <p 
-          className="text-sm font-medium text-foreground truncate mt-0.5 font-mono cursor-default select-none transition-all duration-200"
+          className="text-sm font-medium text-foreground truncate mt-1 font-mono cursor-default select-none transition-all duration-200"
           onMouseEnter={() => setIsRoomNameHovered(true)}
           onMouseLeave={() => setIsRoomNameHovered(false)}
           title="Hover to reveal"
@@ -51,8 +51,8 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
 
       <div className="flex-1 p-4 overflow-y-auto scrollbar-thin">
         <div className="flex items-center gap-1.5 mb-3">
-          <Users className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs text-muted-foreground">Online — {users.length}</span>
+          <Users className="w-3 h-3 text-muted-foreground/50" />
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/50">Online · {users.length}</span>
         </div>
         <div className="space-y-0.5">
           <AnimatePresence initial={false}>
@@ -82,10 +82,10 @@ export function ChatSidebar({ roomCode, users, currentUser, onLeave, className }
       <div className="p-4">
         <button
           onClick={onLeave}
-          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-red-400 transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
+          className="w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-destructive transition-all active:scale-[0.95] py-2 rounded-md hover:bg-muted"
         >
-          <LogOut className="w-4 h-4" />
-          Leave
+          <LogOut className="w-3.5 h-3.5" />
+          <span className="text-xs font-mono">Leave</span>
         </button>
       </div>
     </div>
