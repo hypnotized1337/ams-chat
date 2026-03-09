@@ -512,7 +512,7 @@ export function ChatArea({
           <motion.button
             type="submit"
             disabled={!input.trim() || isInputDisabled}
-            className="bg-primary text-primary-foreground p-2.5 rounded-xl hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+            className="bg-primary text-primary-foreground p-2 rounded-lg hover:opacity-90 transition-all disabled:opacity-10 disabled:cursor-not-allowed"
             whileTap={{ scale: 0.9, rotate: -12 }}
           >
             <Send className="w-4 h-4" />

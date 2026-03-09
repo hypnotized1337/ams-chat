@@ -454,7 +454,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           <motion.button
             type="submit"
             disabled={isSubmitDisabled}
-            className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-md flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed font-mono relative join-button-glow"
+            className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed font-mono text-sm relative join-button-glow"
             whileTap={{ scale: 0.97 }}
             whileHover={!isSubmitDisabled ? { scale: 1.01 } : undefined}
           >
