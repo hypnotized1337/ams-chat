@@ -5,7 +5,7 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
 import { ChangelogDialog } from '@/components/ChangelogDialog';
-import { InteractiveVoidBackground } from '@/components/InteractiveVoidBackground';
+import { CanvasVoidBackground } from '@/components/CanvasVoidBackground';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -264,8 +264,8 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
     mode === 'join' && needsPassword && !joinPassword.trim();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <InteractiveVoidBackground />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-black">
+      <CanvasVoidBackground />
       <div className="grain-overlay" />
 
       <ChangelogDialog />
