@@ -40,9 +40,16 @@ export function CanvasVoidBackground() {
     const initCanvas = () => {
       width = window.innerWidth;
       height = window.innerHeight;
+      
+      // Explicitly set the CSS size to match the viewport
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      
+      // Scale the actual canvas drawing resolution for Retina/high-DPI displays
       canvas.width = width * window.devicePixelRatio;
       canvas.height = height * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      
       cx = width / 2;
       cy = height / 2;
     };
