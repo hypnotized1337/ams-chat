@@ -231,3 +231,30 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 12px hsl(var(--foreground) / 0.05);
 }
+
+/* ── Starfield Background ─────────────────────────────── */
+@keyframes starfield-drift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-2000px); }
+}
+
+@keyframes starfield-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.6; }
+}
+
+/* ── Input Focus Glow ─────────────────────────────────── */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  outline: none;
+}
+
+/* ── Tactile Press ────────────────────────────────────── */
+.tactile-press {
+  transition: transform 0.1s ease;
+}
+.tactile-press:active {
+  transform: scale(0.95);
+}

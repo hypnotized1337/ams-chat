@@ -5,6 +5,7 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
 import { ChangelogDialog } from '@/components/ChangelogDialog';
+import { StarfieldBackground } from '@/components/StarfieldBackground';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -219,13 +220,14 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      <StarfieldBackground />
       <div className="grain-overlay" />
       
       <ChangelogDialog />
       <LayoutGroup>
       <motion.form
           onSubmit={handleSubmit}
-          className="w-full max-w-sm space-y-5 relative z-10 border border-border/20 bg-card/30 backdrop-blur-md rounded-2xl p-7 shadow-[0_0_80px_-20px_hsl(var(--foreground)/0.04)]"
+          className="w-full max-w-sm space-y-5 relative z-10 border border-white/20 bg-card/30 backdrop-blur-md rounded-2xl p-7 shadow-[0_0_80px_-20px_hsl(var(--foreground)/0.04)]"
           initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
