@@ -299,16 +299,18 @@ export function ChatArea({
         {/* Empty state */}
         {!nuking && messages.length === 0 && (
           <motion.div
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-sm font-mono text-muted-foreground/30 select-none void-pulse">
-                say something into the void
+            <div className="flex flex-col items-center gap-2 max-w-sm text-center">
+              <span className="text-sm font-mono text-muted-foreground/40 select-none flex items-center gap-1.5">
+                <span className="text-primary/50">[root@void] ~ $</span>
+                <span className="void-pulse">say something</span>
+                <span className="w-1.5 h-3 bg-muted-foreground/50 animate-terminal-blink" />
               </span>
-              <span className="text-[10px] font-mono text-muted-foreground/15 select-none">
+              <span className="text-[10px] font-mono text-muted-foreground/20 select-none tracking-widest uppercase">
                 messages are ephemeral
               </span>
             </div>
@@ -476,30 +478,27 @@ export function ChatArea({
                 width: `${uploadProgress}%`,
                 opacity: uploadComplete ? [1, 1, 0] : 1,
               }}
-              transition={{
-                width: { duration: 0.2 },
-                opacity: uploadComplete ? { duration: 0.4, times: [0, 0.5, 1] } : undefined,
-              }}
             />
           </div>
         )}
-        <div className="flex gap-1 items-center border border-border/30 focus-within:border-white/30 focus-within:shadow-[0_0_12px_rgba(255,255,255,0.1)] rounded-xl bg-card/40 backdrop-blur-sm px-1.5 transition-all duration-300">
+        <div className="flex gap-1 items-center border border-border/40 focus-within:border-white/40 focus-within:shadow-[0_0_10px_rgba(255,255,255,0.1)] rounded-lg bg-card/40 backdrop-blur-sm px-1.5 transition-all duration-300">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isInputDisabled}
-            className="p-2.5 text-muted-foreground hover:text-foreground hover:-rotate-12 transition-all active:scale-[0.95] disabled:opacity-20 disabled:cursor-not-allowed"
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-sm transition-all active:scale-[0.95] disabled:opacity-20 disabled:cursor-not-allowed"
           >
             <Plus className="w-4 h-4" />
           </button>
           <GifPicker onSelect={onSendGif} disabled={isInputDisabled} />
+          <span className="text-muted-foreground/40 font-mono text-xs select-none pl-1">&gt;</span>
           <input
             type="text"
             value={input}
             onChange={handleInputChange}
-            placeholder={isInputDisabled ? 'Chat is frozen' : 'Message'}
+            placeholder={isInputDisabled ? 'Chat is frozen' : 'Message...'}
             disabled={isInputDisabled}
-            className="flex-1 bg-transparent py-2.5 px-2 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="flex-1 bg-transparent py-2.5 px-2 text-[13px] text-foreground placeholder:font-mono placeholder:text-xs placeholder:text-muted-foreground/50 outline-none transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             maxLength={2000}
           />
           {input.length > 1800 && (
@@ -510,12 +509,12 @@ export function ChatArea({
           <motion.button
             type="submit"
             disabled={!input.trim() || isInputDisabled}
-            className={`p-2.5 rounded-lg transition-all disabled:opacity-10 disabled:cursor-not-allowed flex items-center justify-center ${
-              input.trim() ? 'bg-primary text-primary-foreground shadow-[0_0_15px_rgba(255,255,255,0.2)]' : 'bg-muted text-muted-foreground'
+            className={`px-3 py-1.5 rounded-sm font-mono text-xs uppercase tracking-wider transition-all disabled:opacity-20 disabled:cursor-not-allowed flex items-center justify-center ${
+              input.trim() ? 'bg-primary text-primary-foreground shadow-[0_0_10px_rgba(255,255,255,0.2)]' : 'bg-white/5 text-muted-foreground'
             }`}
-            whileTap={{ scale: 0.9, rotate: -12 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Send className="w-4 h-4 ml-0.5" />
+            {input.trim() ? 'EXEC' : 'SEND'}
           </motion.button>
         </div>
       </form>
