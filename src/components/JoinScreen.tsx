@@ -134,7 +134,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
     if (hasActiveUsers) {
       setRoomTaken(true);
       setError('ROOM ALREADY EXISTS');
-      toast.error('ROOM ALREADY EXISTS', {
+      toast.error('ROOM ALREADY EXISTS.', {
         description: 'This room code is already in use. Choose a different code.',
         duration: 4000
       });
@@ -508,7 +508,7 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
               className="w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-20 disabled:cursor-not-allowed font-mono text-sm relative join-button-glow overflow-hidden group border border-white/10 shadow-[0_2px_10px_rgba(255,255,255,0.1)]"
               whileTap={{ scale: 0.97 }}
               whileHover={!isSubmitDisabled ? { scale: 1.02 } : undefined}>
-              
+
               <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
 
               {isLoading ?
