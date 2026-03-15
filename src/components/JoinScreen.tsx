@@ -13,27 +13,72 @@ interface JoinScreenProps {
   onJoin: (username: string, roomCode: string, isPasswordProtected: boolean) => Promise<{error: string | null;}>;
 }
 
-function GlitchTitle() {
+const VOID_LETTERS = ['v', '0', 'i', 'd'];
+
+function VoidLogo() {
   const [glitching, setGlitching] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setGlitching(true);
-      setTimeout(() => setGlitching(false), 200);
-    }, 4000 + Math.random() * 3000);
+      setTimeout(() => setGlitching(false), 350);
+    }, 3000 + Math.random() * 2000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <motion.h1
-      className="text-lg font-medium text-foreground tracking-tight font-mono relative select-none"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}>
-      
-      <span className={glitching ? 'glitch-text' : ''}>v0id</span>
-    </motion.h1>);
+    <div className="relative flex flex-col items-center">
+      {/* Ambient glow behind logo */}
+      <motion.div
+        className="absolute -inset-8 rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
+        }}
+        animate={{
+          scale: [1, 1.15, 1],
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
 
+      {/* Main title with letter stagger */}
+      <h1 className="relative select-none">
+        <span className="sr-only">v0id</span>
+        <span
+          className={`void-logo-text text-5xl font-semibold tracking-tight font-mono text-foreground inline-flex ${glitching ? 'void-glitch-active' : ''}`}
+          aria-hidden="true"
+        >
+          {VOID_LETTERS.map((letter, i) => (
+            <motion.span
+              key={letter + i}
+              className="inline-block"
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{
+                duration: 0.5,
+                delay: 0.15 + i * 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </span>
+      </h1>
+
+      {/* Decorative line under logo */}
+      <motion.div
+        className="h-px mt-3 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: 80, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </div>
+  );
 }
 
 async function checkPresence(roomName: string): Promise<boolean> {
@@ -233,13 +278,20 @@ export function JoinScreen({ onJoin }: JoinScreenProps) {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
           
         <motion.div
-            className="text-center mb-6"
+            className="flex flex-col items-center mb-8"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
             
-          <GlitchTitle />
-          <p className="text-[10px] font-mono text-muted-foreground/30 tracking-[0.2em] uppercase mt-1.5">secure chat</p>
+          <VoidLogo />
+          <motion.p
+            className="text-[11px] font-mono text-muted-foreground/40 tracking-[0.25em] uppercase mt-4"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            secure · ephemeral · encrypted
+          </motion.p>
         </motion.div>
 
         {/* Mode tabs */}
