@@ -23,8 +23,6 @@ export interface ChatMessage {
   fileMimeType?: string;
   // Reply
   replyTo?: ReplyTo;
-  // Reactions
-  reactions?: Record<string, string[]>;
 }
 
 export interface RoomUser {

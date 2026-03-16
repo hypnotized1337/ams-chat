@@ -11,7 +11,7 @@ const Index = () => {
   const {
     state, joinRoom, leaveRoom, sendMessage, sendTyping,
     toggleNotifications, nukeRoom, freezeChat, sendAnnouncement, editMessage, unsendMessage, sendImage, sendGif,
-    kickUser, toggleReaction
+    kickUser,
   } = useChat();
   const [adminOpen, setAdminOpen] = useState(false);
   const [authOverlay, setAuthOverlay] = useState(false);
@@ -32,7 +32,7 @@ const Index = () => {
     return () => { document.documentElement.style.fontSize = ''; };
   }, [uiScale]);
 
-  const handleSend = useCallback((text: string, replyTo?: { id: string; username: string; text: string }) => {
+  const handleSend = (text: string, replyTo?: { id: string; username: string; text: string }) => {
     if (text.trim() === '/admin') {
       if (sessionStorage.getItem('is_admin') === 'true') {
         setAdminOpen(true);
@@ -42,7 +42,7 @@ const Index = () => {
       return;
     }
     sendMessage(text, replyTo);
-  }, [sendMessage]);
+  };
 
   const handleNuke = useCallback(() => {
     setAdminOpen(false);
@@ -108,7 +108,6 @@ const Index = () => {
             onUnsend={unsendMessage}
             onSendImage={sendImage}
             onSendGif={sendGif}
-            onToggleReaction={toggleReaction}
           />
           {authOverlay && (
             <AdminAuthOverlay
